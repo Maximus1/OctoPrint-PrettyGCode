@@ -8,42 +8,46 @@ from setuptools import setup
 ### Plugin Information
 ####################################################################################################
 
-plugin_info = dict(
+PLUGIN_INFO = dict(
     identifier="prettygcode",
     name="OctoPrint-PrettyGCode",
-    version="1.2.4",
+    version="1.2.4.2",
     description="Pretty GCode Visualizer",
-    author="Kragrathea",
+    author="Maximus1",
     author_email="todo@example.com",
-    url="https://github.com/Kragrathea/OctoPrint-PrettyGCode",
+    url="https://github.com/Maximus1/OctoPrint-PrettyGCode",
     license="AGPLv3",
     requires=[],
     additional_data=[]
 )
 
 # The plugin's python package, should be "octoprint_<plugin identifier>", has to be unique
-plugin_info["package"] = f"octoprint_{plugin_info['identifier']}"
+PLUGIN_INFO["package"] = f"octoprint_{PLUGIN_INFO['identifier']}"
 
 ####################################################################################################
 ### Entry Point
 ####################################################################################################
 
 try:
-    import octoprint_setuptools # type: ignore
+    import octoprint_setuptools  # type: ignore
 except ImportError:
-    print("Could not import OctoPrint's setuptools, are you sure you are running that under "
-          "the same python installation that OctoPrint is installed under?")
+    print(
+        "Could not import OctoPrint's setuptools, are you sure you are running that under "
+        "the same python installation that OctoPrint is installed under?"
+    )
     sys.exit(-1)
 
-setup(**octoprint_setuptools.create_plugin_setup_parameters(
-    identifier=plugin_info["identifier"],
-    name=plugin_info["name"],
-    version=plugin_info["version"],
-    description=plugin_info["description"],
-    author=plugin_info["author"],
-    mail=plugin_info["author_email"],
-    url=plugin_info["url"],
-    license=plugin_info["license"],
-    requires=plugin_info["requires"],
-    additional_data=plugin_info["additional_data"]
-))
+setup(
+    **octoprint_setuptools.create_plugin_setup_parameters(
+        identifier=PLUGIN_INFO["identifier"],
+        name=PLUGIN_INFO["name"],
+        version=PLUGIN_INFO["version"],
+        description=PLUGIN_INFO["description"],
+        author=PLUGIN_INFO["author"],
+        mail=PLUGIN_INFO["author_email"],
+        url=PLUGIN_INFO["url"],
+        license=PLUGIN_INFO["license"],
+        requires=PLUGIN_INFO["requires"],
+        additional_data=PLUGIN_INFO["additional_data"],
+    )
+)
