@@ -54,7 +54,7 @@ class PrettyGCodePlugin(octoprint.plugin.StartupPlugin,
                 user="Marcus",
                 repo="OctoPrint-PrettyGCode",
                 current=self._plugin_version,
-                pip="https://github.com/Marcus/OctoPrint-PrettyGCode/archive/{target_version}.zip"
+                pip="https://github.com/Maximus1/OctoPrint-PrettyGCode/archive/{target_version}.zip"
             )
         )
 

@@ -511,27 +511,24 @@ $(function () {
             }
         };
 
-        self.updateCss = function (newCss)
+        self.updateCss = function ()
         {
-            //alert(this)
-            var newCss=$("#pg_add_css").val();
-            console.log(["Update css:",newCss]);
-            localStorage.setItem('pg_add_css_val',newCss)
-            $("#pgcss").html(newCss);
-
+            var newCss = $("#pg_add_css").val();
+            console.log(["Update css:", newCss]);
+            localStorage.setItem('pg_add_css_val', newCss);
+            document.getElementById('pgcss').textContent = newCss;
         }
         self.onAfterBinding = function () {
-            console.log("onAfterBinding")
+            console.log("onAfterBinding");
 
-            //var addCss=$("#add_css").val();
-            $("<style id='pgcss'>")
-            .prop("type", "text/css")
-            .html("")
-            .appendTo("head");
+            var styleElement = document.createElement('style');
+            styleElement.id = 'pgcss';
+            styleElement.type = 'text/css';
+            document.head.appendChild(styleElement);
 
-            var css = localStorage.getItem('pg_add_css_val')
+            var css = localStorage.getItem('pg_add_css_val');
             if(css){
-                $("#pgcss").html(css);
+                styleElement.textContent = css;
                 $("#pg_add_css").val(css);
             }
         };
@@ -552,6 +549,7 @@ $(function () {
         var clock;
         var dimensionsGroup;
         var sceneBounds = new THREE.Box3();
+        var animationFrameId = null;
         //todo. Are these needed?
         var gcodeWid = 580;
         var gcodeHei = 580;
@@ -619,6 +617,50 @@ $(function () {
             width: 0,
           };
         var viewInitialized = false;
+
+        function cleanupThreeScene() {
+            if (animationFrameId !== null) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            
+            if (scene) {
+                scene.traverse(function(object) {
+                    if (object.geometry) {
+                        object.geometry.dispose();
+                    }
+                    if (object.material) {
+                        if (Array.isArray(object.material)) {
+                            object.material.forEach(function(mat) { mat.dispose(); });
+                        } else {
+                            object.material.dispose();
+                        }
+                    }
+                });
+                scene.clear();
+            }
+            
+            if (renderer) {
+                renderer.dispose();
+            }
+            
+            if (gui) {
+                gui.destroy();
+            }
+            
+            scene = null;
+            renderer = null;
+            camera = null;
+            cameraControls = null;
+            cameraLight = null;
+            gcodeProxy = null;
+            cubeCamera = null;
+            nozzleModel = null;
+            dimensionsGroup = null;
+            gui = null;
+            viewInitialized = false;
+        }
+
         self.onTabChange = function (current, previous) {
 
             if (current == "#tab_plugin_prettygcode") {
@@ -816,10 +858,9 @@ $(function () {
                 self.controlViewModel._enableWebcam();
 
             } else if (previous == "#tab_plugin_prettygcode") {
-                //todo. disable animation 
+                cleanupThreeScene();
                 
-                //Disable camera when tab isnt visible.
-                $(".gwin #pg_webcam_image").attr("src", "")
+                $(".gwin #pg_webcam_image").attr("src", "");
                 self.controlViewModel._disableWebcam();
             }
             self.controlViewModel._enableWebcam();
@@ -1884,7 +1925,7 @@ $(function () {
                 }
 
                 //renderer2.render(scene, camera);
-                requestAnimationFrame(animate);
+                animationFrameId = requestAnimationFrame(animate);
             }
 
             animate();
