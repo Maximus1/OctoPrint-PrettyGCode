@@ -11,7 +11,7 @@ from setuptools import setup
 PLUGIN_INFO = dict(
     identifier="prettygcode",
     name="OctoPrint-PrettyGCode",
-    version="1.2.4.2",
+    version="1.2.4.3",
     description="Pretty GCode Visualizer",
     author="Marcus",
     author_email="todo@example.com",
