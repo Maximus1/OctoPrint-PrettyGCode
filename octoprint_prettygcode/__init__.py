@@ -51,10 +51,10 @@ class PrettyGCodePlugin(octoprint.plugin.StartupPlugin,
 
                 # version check: github repository
                 type="github_release",
-                user="Kragrathea",
+                user="Marcus",
                 repo="OctoPrint-PrettyGCode",
                 current=self._plugin_version,
-                pip="https://github.com/Kragrathea/OctoPrint-PrettyGCode/archive/{target_version}.zip"
+                pip="https://github.com/Marcus/OctoPrint-PrettyGCode/archive/{target_version}.zip"
             )
         )
 
