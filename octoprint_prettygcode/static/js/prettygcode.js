@@ -792,6 +792,15 @@ $(function () {
                     $(".pgsettingstoggle").on("click", function () {
                         $("#mygui").toggleClass("pghidden");
                     });
+                    $(".pgdarkmodetoggle").on("click", function () {
+                        pgSettings.darkMode = !pgSettings.darkMode;
+                        var color = pgSettings.darkMode ? darkBackground : lightBackground;
+                        scene.background = new THREE.Color(color);
+                        renderer.render(scene, camera);
+                    });
+                    $(".pgsettingstoggle").on("click", function () {
+                        $("#mygui").toggleClass("pghidden");
+                    });
                     $(".pgstatetoggle").on("click", function () {
                         pgSettings.showState=!pgSettings.showState;
                         updateWindowStates();
@@ -1953,5 +1962,3 @@ $(function () {
 
 
 });
-
-
